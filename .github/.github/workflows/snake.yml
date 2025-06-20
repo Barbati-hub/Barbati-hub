@@ -1,0 +1,31 @@
+name: Generate Snake
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # executa todo dia à meia-noite
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: Barbati-hub
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg
+
+      - name: Commit snake
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Atualizando snake 🐍"
+          add: "dist/*.svg"
+
+      - name: Push to profile
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/*.svg
+          git commit -m "Atualizando snake 🐍"
+          git push
