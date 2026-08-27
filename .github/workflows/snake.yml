@@ -8,6 +8,8 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: Platane/snk@v3
         with:
@@ -19,13 +21,5 @@ jobs:
       - name: Commit snake
         uses: EndBug/add-and-commit@v9
         with:
-          message: "Atualizando snake 🐍"
+          message: "Atualizando snake"
           add: "dist/*.svg"
-
-      - name: Push to profile
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/*.svg
-          git commit -m "Atualizando snake 🐍"
-          git push
